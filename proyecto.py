@@ -1,10 +1,9 @@
 from datetime import date
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from collections import Counter
 
 # Clase estudiante
 class Estudiante:
-
     def __init__(self, nombre: str, edad: int, genero: str, areaEstudio: str):
         self.nombre: str = nombre
         self.edad: int = edad
@@ -16,7 +15,6 @@ class Estudiante:
 
 # Clase alimento
 class Alimento:
-
     def __init__(self, nombre: str, tipo: str, carbohidrato: float, proteina: float, fibra: float, otro: float, porcion: str):
         self.nombre: str = nombre
         self.tipo: str = tipo
@@ -31,7 +29,6 @@ class Alimento:
 
 # Clase ingesta
 class Ingesta:
-
     def __init__(self, estudiante: Estudiante, alimento: Alimento, fecha: date, cantidad: float):
         self.estudiante: Estudiante = estudiante
         self.alimento: Alimento = alimento
@@ -44,7 +41,6 @@ class Ingesta:
 
 # Clase reporte
 class ReporteAnalisis:
-
     def __init__(self, promedioCarbohidratos: float, promedioProteinas: float, promedioFibra: float, alimentosMasConsumidos: Dict[str, int]):
         self.promedioCarbohidratos: float = promedioCarbohidratos
         self.promedioProteinas: float = promedioProteinas
@@ -82,7 +78,6 @@ class ReporteAnalisis:
 
 # Clase del analizador de alimentacion
 class AnalizadorAlimentacion:
-
     def __init__(self):
         pass
 
@@ -154,8 +149,33 @@ def input_datos_estudiante() -> Estudiante:
             break
         else:
             print("Carrera invalida. Ingresa un valor correcto por favor")
-    
+  
     return Estudiante(nombre, edad, genero, area_estudio)
+
+
+# Base de datos de alimentos disponibles (definida globalmente para fácil acceso)
+ALIMENTOS_DISPONIBLES = {
+    "manzana": Alimento("Manzana", "Fruta", 25.0, 0.5, 4.0, 0.2, "1 pieza mediana (aprox. 180g)"),
+    "pechuga de pollo": Alimento("Pechuga de Pollo", "Carne", 0.0, 31.0, 0.0, 2.0, "100g cocida"),
+    "arroz blanco": Alimento("Arroz Blanco", "Cereal", 28.0, 2.7, 0.4, 0.1, "1/2 taza cocida (aprox. 75g)"),
+    "lentejas": Alimento("Lentejas", "Legumbre", 20.0, 9.0, 8.0, 1.0, "1/2 taza cocida (aprox. 100g)"),
+    "pan integral": Alimento("Pan Integral", "Cereal", 15.0, 3.0, 2.5, 0.5, "1 rebanada (aprox. 30g)"),
+    "aguacate": Alimento("Aguacate", "Fruta", 9.0, 2.0, 7.0, 15.0, "1/2 unidad (aprox. 100g)"),
+    "salmon": Alimento("Salmón", "Pescado", 0.0, 20.0, 0.0, 13.0, "100g"),
+    "brocoli": Alimento("Brócoli", "Vegetal", 7.0, 2.8, 5.0, 0.4, "1 taza (aprox. 90g)"),
+    "huevo": Alimento("Huevo", "Proteína", 0.6, 6.0, 0.0, 5.0, "1 unidad grande"),
+    "yogur griego": Alimento("Yogur Griego", "Lácteo", 5.0, 10.0, 0.0, 0.5, "100g"),
+    "pasta": Alimento("Pasta", "Cereal", 30.0, 5.0, 2.0, 0.5, "1 taza cocida"),
+    "atun enlatado": Alimento("Atún enlatado", "Pescado", 0.0, 25.0, 0.0, 8.0, "100g"),
+    "papa cocida": Alimento("Papa Cocida", "Vegetal", 20.0, 2.0, 2.0, 0.1, "1 papa mediana (aprox. 170g)"),
+    "leche entera": Alimento("Leche Entera", "Lácteo", 12.0, 8.0, 0.0, 8.0, "1 vaso (240ml)"),
+    "quinoa": Alimento("Quinoa", "Cereal", 21.0, 4.0, 3.0, 0.5, "1/2 taza cocida"),
+    "almendras": Alimento("Almendras", "Fruto Seco", 20.0, 20.0, 12.0, 50.0, "100g"),
+    "espinacas": Alimento("Espinacas", "Vegetal", 3.6, 2.9, 2.2, 0.4, "1 taza cruda (30g)"),
+    "pollo asado": Alimento("Pollo Asado", "Carne", 0.0, 25.0, 0.0, 5.0, "100g sin piel"),
+    "platano": Alimento("Plátano", "Fruta", 27.0, 1.1, 2.6, 0.3, "1 plátano mediano (118g)"),
+    "avena": Alimento("Avena", "Cereal", 27.0, 5.0, 4.0, 1.0, "1/2 taza cocida"),
+}
 
 
 # Función para que el usuario ingrese alimentos
@@ -164,30 +184,10 @@ def input_ingestas_usuario(estudiante: Estudiante) -> List[Ingesta]:
     print(f"\n--- Ingreso de comidas para {estudiante.nombre} ---")
     print("Introduce los alimentos consumidos. Escribe 'fin' para terminar.")
 
-    # Simular una base de datos de alimentos con valores nutricionales
-    alimentos_disponibles = {
-        "manzana": Alimento("Manzana", "Fruta", 25.0, 0.5, 4.0, 0.2, "1 pieza mediana (aprox. 180g)"),
-        "pechuga de pollo": Alimento("Pechuga de Pollo", "Carne", 0.0, 31.0, 0.0, 2.0, "100g cocida"),
-        "arroz blanco": Alimento("Arroz Blanco", "Cereal", 28.0, 2.7, 0.4, 0.1, "1/2 taza cocida (aprox. 75g)"),
-        "lentejas": Alimento("Lentejas", "Legumbre", 20.0, 9.0, 8.0, 1.0, "1/2 taza cocida (aprox. 100g)"),
-        "pan integral": Alimento("Pan Integral", "Cereal", 15.0, 3.0, 2.5, 0.5, "1 rebanada (aprox. 30g)"),
-        "aguacate": Alimento("Aguacate", "Fruta", 9.0, 2.0, 7.0, 15.0, "1/2 unidad (aprox. 100g)"),
-        "salmon": Alimento("Salmón", "Pescado", 0.0, 20.0, 0.0, 13.0, "100g"),
-        "brocoli": Alimento("Brócoli", "Vegetal", 7.0, 2.8, 5.0, 0.4, "1 taza (aprox. 90g)"),
-        "huevo": Alimento("Huevo", "Proteína", 0.6, 6.0, 0.0, 5.0, "1 unidad grande"),
-        "yogur griego": Alimento("Yogur Griego", "Lácteo", 5.0, 10.0, 0.0, 0.5, "100g"),
-        "pasta": Alimento("Pasta", "Cereal", 30.0, 5.0, 2.0, 0.5, "1 taza cocida"),
-        "atun enlatado": Alimento("Atún enlatado", "Pescado", 0.0, 25.0, 0.0, 8.0, "100g"),
-        "papa cocida": Alimento("Papa Cocida", "Vegetal", 20.0, 2.0, 2.0, 0.1, "1 papa mediana (aprox. 170g)"),
-        "leche entera": Alimento("Leche Entera", "Lácteo", 12.0, 8.0, 0.0, 8.0, "1 vaso (240ml)"),
-        "quinoa": Alimento("Quinoa", "Cereal", 21.0, 4.0, 3.0, 0.5, "1/2 taza cocida"),
-        "almendras": Alimento("Almendras", "Fruto Seco", 20.0, 20.0, 12.0, 50.0, "100g"),
-    }
-
-    # --- Mostrar la base de datos de alimentos al inicio ---
+    # Mostrar la base de datos de alimentos al inicio
     print("\n--- Base de Datos de Alimentos Disponibles ---")
     # Ordenar los alimentos alfabéticamente para una mejor visualización
-    sorted_alimentos = sorted(alimentos_disponibles.items(), key=lambda item: item[0])
+    sorted_alimentos = sorted(ALIMENTOS_DISPONIBLES.items(), key=lambda item: item[0])
     for nombre_key, alimento_obj in sorted_alimentos:
         print(f"- {alimento_obj.nombre.capitalize()} (Porción: {alimento_obj.porcion})")
     print("-------------------------------------------\n")
@@ -197,7 +197,7 @@ def input_ingestas_usuario(estudiante: Estudiante) -> List[Ingesta]:
         if nombre_alimento.lower() == 'fin':
             break
         
-        alimento_encontrado = alimentos_disponibles.get(nombre_alimento.lower())
+        alimento_encontrado = ALIMENTOS_DISPONIBLES.get(nombre_alimento.lower())
 
         if alimento_encontrado:
             try:
@@ -211,15 +211,76 @@ def input_ingestas_usuario(estudiante: Estudiante) -> List[Ingesta]:
                 print("Cantidad inválida. Por favor, ingresa un número.")
         else:
             print(f"El alimento '{nombre_alimento}' no está en nuestra base de datos. Por favor, intenta con otro o revisa la escritura.")
-            # Se omite la lista de disponibles aquí para evitar repetirla en cada error.
 
     return ingestas_usuario
+
+# --- NUEVA FUNCIÓN: Generar recomendaciones de alimentos ---
+def generar_recomendaciones(reporte: ReporteAnalisis, ingestas_pasadas: List[Ingesta]) -> List[Alimento]:
+    recomendaciones: List[Alimento] = []
+    
+    # Objetivos nutricionales básicos (pueden ser personalizados en el futuro)
+    # Estos porcentajes son sobre el total de Carbs + Proteínas + Fibra
+    OBJETIVOS_NUTRICIONALES = {
+        "carbohidratos": 0.50, # 50% del total
+        "proteinas": 0.30,    # 30% del total
+        "fibra": 0.20         # 20% del total
+    }
+
+    # Calcular los porcentajes actuales del usuario
+    porcentaje_actual_carbs = (reporte.total_carbohidratos / reporte.total_nutrientes) * 100 if reporte.total_nutrientes > 0 else 0
+    porcentaje_actual_proteinas = (reporte.total_proteinas / reporte.total_nutrientes) * 100 if reporte.total_nutrientes > 0 else 0
+    porcentaje_actual_fibra = (reporte.total_fibra / reporte.total_nutrientes) * 100 if reporte.total_nutrientes > 0 else 0
+
+    # Determinar qué macronutriente está más bajo en comparación con el objetivo
+    diferencias = {
+        "carbohidratos": OBJETIVOS_NUTRICIONALES["carbohidratos"] * 100 - porcentaje_actual_carbs,
+        "proteinas": OBJETIVOS_NUTRICIONALES["proteinas"] * 100 - porcentaje_actual_proteinas,
+        "fibra": OBJETIVOS_NUTRICIONALES["fibra"] * 100 - porcentaje_actual_fibra
+    }
+
+    # Encontrar el macronutriente con la mayor "brecha negativa" (más por debajo del objetivo)
+    # Si todas las diferencias son negativas (por encima del objetivo), o si no hay datos, no se recomienda nada.
+    macronutriente_a_reforzar = None
+    max_diferencia_negativa = -float('inf') # Inicializar con un valor muy bajo
+
+    for nutriente, diff in diferencias.items():
+        if diff > max_diferencia_negativa: # Queremos el más positivo (más por debajo del objetivo)
+            max_diferencia_negativa = diff
+            macronutriente_a_reforzar = nutriente
+    
+    # Si la mayor diferencia negativa es realmente negativa o cero, significa que estamos por encima o en el objetivo
+    # en todos los casos, o no hay datos.
+    if macronutriente_a_reforzar is None or max_diferencia_negativa <= 0:
+        return [] # No hay necesidad de recomendar
+
+    print(f"\nDetectado: Tu ingesta de {macronutriente_a_reforzar.capitalize()} está por debajo del objetivo. ¡Considera añadir más!")
+
+    # Obtener los nombres de los alimentos ya consumidos para no recomendarlos de nuevo
+    alimentos_ya_consumidos_nombres = {ingesta.alimento.nombre.lower() for ingesta in ingestas_pasadas}
+
+    # Filtrar alimentos de la base de datos que sean ricos en el macronutriente a reforzar
+    candidatos_a_recomendar = []
+    for nombre_key, alimento_obj in ALIMENTOS_DISPONIBLES.items():
+        if nombre_key not in alimentos_ya_consumidos_nombres:
+            # Aquí la lógica para "rico en" es simplista: solo verifica si tiene un valor alto.
+            # En un sistema real, se usarían umbrales o ratios más complejos.
+            if macronutriente_a_reforzar == "carbohidratos" and alimento_obj.carbohidrato > 20:
+                candidatos_a_recomendar.append(alimento_obj)
+            elif macronutriente_a_reforzar == "proteinas" and alimento_obj.proteina > 15:
+                candidatos_a_recomendar.append(alimento_obj)
+            elif macronutriente_a_reforzar == "fibra" and alimento_obj.fibra > 3:
+                candidatos_a_recomendar.append(alimento_obj)
+    
+    # Seleccionar las primeras 3 recomendaciones (o menos si no hay suficientes)
+    recomendaciones = candidatos_a_recomendar[:3]
+
+    return recomendaciones
+
 
 # Ejemplo de Uso (Bloque principal de ejecución)
 if __name__ == "__main__":
     analizador = AnalizadorAlimentacion() # Instancia del analizador
 
-    # --- Interacción completa con el usuario ---
     print("\n" + "="*60 + "\n")
     print("--- ¡Bienvenido al Analizador Nutricional Interactivo! ---")
     
@@ -235,6 +296,17 @@ if __name__ == "__main__":
         print(f"\n--- Reporte Nutricional para {estudiante_actual.nombre} ({date.today()}) ---")
         reporte_personal = analizador.analizarIngesta(ingestas_del_usuario)
         print(reporte_personal.generarReporte())
+
+        # --- NUEVO: Generar y mostrar recomendaciones ---
+        print("\n--- Recomendaciones Nutricionales para ti ---")
+        recomendaciones_generadas = generar_recomendaciones(reporte_personal, ingestas_del_usuario)
+        if recomendaciones_generadas:
+            for i, alimento_rec in enumerate(recomendaciones_generadas):
+                print(f"{i+1}. {alimento_rec.nombre.capitalize()} (Porción: {alimento_rec.porcion})")
+        else:
+            print("¡Parece que tu dieta está bien equilibrada o no hay recomendaciones claras en este momento!")
+            print("O no se ingresaron suficientes datos para hacer una recomendación.")
+
     else:
         print("No se ingresaron comidas para generar un reporte hoy para ti.")
 
